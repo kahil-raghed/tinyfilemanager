@@ -25,15 +25,16 @@ $use_auth = true;
 // Login user name and password
 // Users: array('Username' => 'Password', 'Username2' => 'Password2', ...)
 // Generate secure password hash - https://tinyfilemanager.github.io/docs/pwd.html
+
 $auth_users = array(
-    'admin' => '$2y$10$/K.hjNr84lLNDt8fTXjoI.DBp6PpeyoJ.mGwrrLuCZfAwfSAGqhOW', //admin@123
-    'user' => '$2y$10$Fg6Dz8oH9fPoZ2jJan5tZuv6Z4Kp7avtQ9bDfrdRntXtPeiMAZyGO' //12345
+    ($_ENV['ADMIN_USER'] ?? 'admin') =>  password_hash($_ENV['ADMIN_PASSWORD'] ?? 'admin@123', PASSWORD_DEFAULT),
+    // 'user' => '$2y$10$Fg6Dz8oH9fPoZ2jJan5tZuv6Z4Kp7avtQ9bDfrdRntXtPeiMAZyGO' //12345
 );
 
 // Readonly users
 // e.g. array('users', 'guest', ...)
 $readonly_users = array(
-    'user'
+    // 'user'
 );
 
 // Global readonly, including when auth is not being used
@@ -59,11 +60,11 @@ $default_timezone = 'Etc/UTC'; // UTC
 
 // Root path for file manager
 // use absolute path of directory i.e: '/var/www/folder' or $_SERVER['DOCUMENT_ROOT'].'/folder'
-$root_path = $_SERVER['DOCUMENT_ROOT'];
+$root_path = $_ENV['ROOT_PATH'] ?? $_SERVER['DOCUMENT_ROOT'];
 
 // Root url for links in file manager.Relative to $http_host. Variants: '', 'path/to/subfolder'
 // Will not working if $root_path will be outside of server document root
-$root_url = '';
+$root_url = $_ENV['ROOT_URL'] ?? '';
 
 // Server hostname. Can set manually if wrong
 // $_SERVER['HTTP_HOST'].'/folder'
@@ -88,7 +89,7 @@ $allowed_file_extensions = '';
 
 // Allowed file extensions for upload files
 // e.g. 'gif,png,jpg,html,txt'
-$allowed_upload_extensions = '';
+$allowed_upload_extensions = $_ENV['ALLOWED_UPLOAD_EXTENSIONS'] ?? '';
 
 // Favicon path. This can be either a full url to an .PNG image, or a path based on the document root.
 // full path, e.g http://example.com/favicon.png
@@ -97,7 +98,7 @@ $favicon_path = '';
 
 // Files and folders to excluded from listing
 // e.g. array('myfile.html', 'personal-folder', '*.php', ...)
-$exclude_items = array();
+$exclude_items = explode(',', $_ENV['EXCLUDE_ITEMS'] ?? '');
 
 // Online office Docs Viewer
 // Available rules are 'google', 'microsoft' or false
@@ -143,7 +144,7 @@ $ip_blacklist = array(
 
 // if User has the external config file, try to use it to override the default config above [config.php]
 // sample config - https://tinyfilemanager.github.io/config-sample.txt
-$config_file = __DIR__.'/config.php';
+$config_file = $_ENV['CONFIG_FILE'] ?? __DIR__.'/config.php';
 if (is_readable($config_file)) {
     @include($config_file);
 }
