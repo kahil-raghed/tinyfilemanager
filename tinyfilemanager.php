@@ -33,7 +33,7 @@ $passwords = explode(',', $_ENV['AUTH_USER_PASSWORD_HASHES'] ?? password_hash('a
 
 for ($i=0; $i < sizeof($users); $i++) { 
     $user = trim($users[$i]);
-    $password = trim($passwords[$i]);
+    $password = trim($_ENV['USER_'. strtoupper($user) .'_PASSWORD_HASH']);
     $auth_users[$user] = $password;
 }
 
