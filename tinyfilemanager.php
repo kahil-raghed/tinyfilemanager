@@ -29,7 +29,6 @@ $use_auth = true;
 $auth_users = [];
 
 $users = explode(',', $_ENV['AUTH_USERS'] ?? 'admin');
-$passwords = explode(',', $_ENV['AUTH_USER_PASSWORD_HASHES'] ?? password_hash('admin@123', PASSWORD_DEFAULT));
 
 for ($i=0; $i < sizeof($users); $i++) { 
     $user = trim($users[$i]);
